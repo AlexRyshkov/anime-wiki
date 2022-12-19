@@ -1,9 +1,7 @@
 package com.example.animelist.network
 
-import com.squareup.moshi.Json
-
 data class Response(
-    val data: List<Anime>
+    val data: MutableList<Anime>
 )
 
 data class Anime(

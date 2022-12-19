@@ -1,6 +1,5 @@
 package com.example.animelist.data
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +11,9 @@ import com.example.animelist.R
 import com.example.animelist.network.Anime
 
 class AnimeListAdapter(
-    private val context: Context?,
-    private val items: List<Anime>
+    private val items: MutableList<Anime>
 ) : RecyclerView.Adapter<AnimeListAdapter.AnimeListViewholder>() {
+
 
     class AnimeListViewholder(view: View) : RecyclerView.ViewHolder(view) {
         val textViewTitle = view.findViewById<TextView>(R.id.anime_title)
