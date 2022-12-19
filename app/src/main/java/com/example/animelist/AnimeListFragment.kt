@@ -6,6 +6,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.animelist.data.AnimeApiStatus
@@ -31,6 +32,12 @@ class AnimeListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initScrollListener()
 
+        val animeClickListener = { anime:Anime ->
+            val bundle = Bundle()
+            bundle.putString("malId", anime.malId.toString())
+            Navigation.findNavController(view).navigate(R.id.action_animeListFragment_to_animeInfoFragment2, bundle)
+        }
+
         val statusObserver = Observer<AnimeApiStatus> { status ->
             if (status == AnimeApiStatus.LOADING) {
                 binding.progressBar.visibility = View.VISIBLE
@@ -41,7 +48,7 @@ class AnimeListFragment : Fragment() {
 
         val animeListObserver = Observer<MutableList<Anime>> { animeList ->
             if (binding.animeRecyclerView.adapter == null) {
-                binding.animeRecyclerView.adapter = AnimeListAdapter(animeList)
+                binding.animeRecyclerView.adapter = AnimeListAdapter(animeList, animeClickListener)
             } else {
                 binding.animeRecyclerView.adapter?.notifyDataSetChanged()
             }

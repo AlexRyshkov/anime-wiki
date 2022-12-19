@@ -1,6 +1,5 @@
 package com.example.animelist.data
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -30,17 +29,17 @@ class AnimeViewModel : ViewModel() {
         viewModelScope.launch {
             _status.value = AnimeApiStatus.LOADING
             try {
-                val newList = AnimeApi.retrofitService.getAnimeList(currentPage).data
-                setAnimeList(newList)
+                val response = AnimeApi.retrofitService.getAnimeList(currentPage)
+                addToList(response.data)
                 _status.value = AnimeApiStatus.DONE
             } catch (e: Exception) {
                 _status.value = AnimeApiStatus.ERROR
-                setAnimeList(listOf())
+                addToList(listOf())
             }
         }
     }
 
-    private fun setAnimeList(items: Iterable<Anime>) {
+    private fun addToList(items: Iterable<Anime>) {
         val currentList = (animeList.value as MutableList<Anime>)
         currentList.addAll(items)
         _animeList.value = currentList

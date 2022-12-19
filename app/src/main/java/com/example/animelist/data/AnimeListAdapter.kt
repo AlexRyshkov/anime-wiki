@@ -11,7 +11,8 @@ import com.example.animelist.R
 import com.example.animelist.network.Anime
 
 class AnimeListAdapter(
-    private val items: MutableList<Anime>
+    private val items: MutableList<Anime>,
+    private val onItemClick: (anime: Anime) -> Unit
 ) : RecyclerView.Adapter<AnimeListAdapter.AnimeListViewholder>() {
 
 
@@ -28,6 +29,9 @@ class AnimeListAdapter(
 
     override fun onBindViewHolder(holder: AnimeListViewholder, position: Int) {
         val item = items[position]
+        holder.itemView.setOnClickListener {
+            onItemClick(item)
+        }
         holder.textViewTitle.text = item.title
         holder.animeImageView.load(item.images.webp.image_url)
     }
