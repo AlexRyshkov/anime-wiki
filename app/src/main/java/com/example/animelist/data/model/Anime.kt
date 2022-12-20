@@ -1,4 +1,4 @@
-package com.example.animelist.network
+package com.example.animelist.data.model
 
 import com.squareup.moshi.Json
 
@@ -14,14 +14,14 @@ data class Anime(
     val title: String,
     @Json(name = "mal_id")
     val malId: Int,
+    val images: Images,
     val episodes: Int?,
-    val images: Images
-)
+    )
 
 data class Images(
     val webp: Webp
 )
 
 data class Webp(
-    val image_url: String
+    val large_image_url: String
 )

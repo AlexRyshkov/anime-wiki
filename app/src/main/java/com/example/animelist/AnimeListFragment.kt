@@ -1,10 +1,13 @@
 package com.example.animelist
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,30 +15,47 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.animelist.data.AnimeApiStatus
 import com.example.animelist.data.AnimeListAdapter
 import com.example.animelist.data.AnimeViewModel
+import com.example.animelist.data.model.Anime
 import com.example.animelist.databinding.FragmentAnimeListBinding
-import com.example.animelist.network.Anime
 
 
 class AnimeListFragment : Fragment() {
-    private lateinit var binding: FragmentAnimeListBinding
-    private val animeViewModel: AnimeViewModel by viewModels()
+    // lateinit плохая тема, лучше не использовать, лучше использовать подход с двумя переменными
+    private var _binding: FragmentAnimeListBinding? = null
+    private val animeViewModel: AnimeViewModel by activityViewModels()
 
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentAnimeListBinding.inflate(inflater, container, false)
+        _binding = FragmentAnimeListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+    // Лучше разбить метод на более мелкие
+    @SuppressLint("ClickableViewAccessibility", "NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initScrollListener()
 
-        val animeClickListener = { anime:Anime ->
+
+        binding.searchEditText.setOnEditorActionListener { textView, actionId, _ ->
+            var handled = false
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                animeViewModel.updateQuery(textView.text.toString())
+                textView.hideKeyboard()
+                textView.clearFocus()
+                handled = true
+            }
+            handled
+        }
+
+        val animeClickListener: (Anime) -> Unit = { anime ->
             val bundle = Bundle()
-            bundle.putString("malId", anime.malId.toString())
-            Navigation.findNavController(view).navigate(R.id.action_animeListFragment_to_animeInfoFragment2, bundle)
+            // Строковые литералы лучше выносить в коснтанты
+            bundle.putInt("malId", anime.malId)
+            Navigation.findNavController(view)
+                .navigate(R.id.action_animeListFragment_to_animeInfoFragment2, bundle)
         }
 
         val statusObserver = Observer<AnimeApiStatus> { status ->
@@ -48,8 +68,10 @@ class AnimeListFragment : Fragment() {
 
         val animeListObserver = Observer<MutableList<Anime>> { animeList ->
             if (binding.animeRecyclerView.adapter == null) {
+                // Неправильно пересоздавать адаптеры
                 binding.animeRecyclerView.adapter = AnimeListAdapter(animeList, animeClickListener)
             } else {
+                // Перейти на diff utils
                 binding.animeRecyclerView.adapter?.notifyDataSetChanged()
             }
         }
@@ -59,12 +81,16 @@ class AnimeListFragment : Fragment() {
     }
 
     private fun initScrollListener() {
+        // Листенер добавляешь, но нигде потом не убираешь -> потенциальная утечка. Для отслеживания утечек памяти
+        //  есть библиотека LeakCanary
         binding.animeRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val gridLayoutManager = recyclerView.layoutManager as GridLayoutManager
+                // Вот эту штуку лучше во вью модель вынести, а фрагмент будет просто вызывать какой-то один метод
                 if (animeViewModel.status.value != AnimeApiStatus.LOADING) {
                     if (gridLayoutManager.findLastCompletelyVisibleItemPosition() ==
+                        // Такие простыни кода лучше выносить в отдельные функции / val get()
                         animeViewModel.animeList.value?.size?.minus(1)
                     ) {
                         animeViewModel.nextPage()
@@ -72,5 +98,10 @@ class AnimeListFragment : Fragment() {
                 }
             }
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

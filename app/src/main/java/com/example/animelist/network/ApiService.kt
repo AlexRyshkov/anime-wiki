@@ -1,5 +1,7 @@
 package com.example.animelist.network
 
+import com.example.animelist.data.model.AnimeListResponse
+import com.example.animelist.data.model.AnimeResponse
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
@@ -22,12 +24,13 @@ val retrofit = Retrofit.Builder()
 
 interface ApiService {
     @GET("anime")
-    suspend fun getAnimeList(@Query("page") page: Int): AnimeListResponse
+    suspend fun getAnimeList(@Query("page") page: Int, @Query("q") query: String): AnimeListResponse
 
-    @GET("anime/{id}")
+    @GET("anime/{id}/full")
     suspend fun getAnime(@Path("id") malId: Int): AnimeResponse
 }
 
+// Добавить DI фреймоворк
 object AnimeApi {
     val retrofitService: ApiService by lazy { retrofit.create(ApiService::class.java) }
 }

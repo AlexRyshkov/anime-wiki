@@ -10,26 +10,28 @@
     app:cardCornerRadius="4dp"
     app:cardElevation="4dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!--Название в xml лучше делать Camel Case-->
         <ImageView
-            android:id="@+id/anime_image"
+            android:id="@+id/animeImage"
             android:layout_width="match_parent"
             android:layout_height="240dp"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toTopOf="@id/anime_title"
+            app:layout_constraintBottom_toTopOf="@id/animeTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/backgrounds/scenic" />
 
+        <!--Название в xml лучше делать Camel Case-->
         <TextView
-            android:id="@+id/anime_title"
-            android:layout_width="wrap_content"
+            android:id="@+id/animeTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/anime_image"
+            app:layout_constraintTop_toBottomOf="@id/animeImage"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
