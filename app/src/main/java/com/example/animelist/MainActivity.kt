@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import com.example.animelist.data.AnimeViewModel
 import com.example.animelist.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -21,18 +20,6 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-//        binding.bottomNav.setOnNavigationItemSelectedListener {
-//            when (it.itemId) {
-//                R.id.home -> setCurrentFragment(AnimeListFragment())
-//                R.id.favorite -> setCurrentFragment(FavoriteFragment())
-//            }
-//            true
-//        }
+        binding
     }
-
-    private fun setCurrentFragment(fragment: Fragment) =
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.navHostFragment, fragment)
-            commit()
-        }
 }

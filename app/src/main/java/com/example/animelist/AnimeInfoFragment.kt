@@ -37,6 +37,7 @@ class AnimeInfoFragment : Fragment() {
 
         val animeObserver = Observer<Anime?> { anime ->
             if (anime != null) {
+                binding.appBarTitleTextView.text = anime.title
                 binding.posterImageView.load(anime.images.webp.large_image_url)
                 binding.titleTextView.text = getString(R.string.title, anime.title)
                 binding.episodesTextView.text = getString(R.string.episodes, anime.episodes)

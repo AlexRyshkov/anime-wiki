@@ -14,10 +14,21 @@
             app:destination="@id/animeInfoFragment">
             <argument android:name="malId" app:argType="integer" />
         </action>
+        <action
+            android:id="@+id/action_animeListFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
     </fragment>
     <fragment
         android:id="@+id/animeInfoFragment"
         android:name="com.example.animelist.AnimeInfoFragment"
         android:label="fragment_anime_info"
         tools:layout="@layout/fragment_anime_info" />
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.animelist.FavoriteFragment"
+        android:label="FavoriteFragment" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_animeListFragment"
+            app:destination="@id/animeListFragment" />
+    </fragment>
 </navigation>

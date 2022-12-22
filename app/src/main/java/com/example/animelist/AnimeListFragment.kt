@@ -38,6 +38,15 @@ class AnimeListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initScrollListener()
 
+        (activity as MainActivity).binding.bottomNav.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.home -> Navigation.findNavController(activity as MainActivity,R.id.navHostFragment)
+                    .navigate(R.id.action_favoriteFragment_to_animeListFragment)
+                R.id.favorite -> Navigation.findNavController(activity as MainActivity, R.id.navHostFragment)
+                    .navigate(R.id.action_animeListFragment_to_favoriteFragment)
+            }
+            true
+        }
 
         binding.searchEditText.setOnEditorActionListener { textView, actionId, _ ->
             var handled = false
