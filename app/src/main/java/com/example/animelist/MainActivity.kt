@@ -1,43 +1,38 @@
 package com.example.animelist
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
-import androidx.core.app.NavUtils
+import androidx.fragment.app.Fragment
 import com.example.animelist.data.AnimeViewModel
+import com.example.animelist.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     val animeViewModel: AnimeViewModel by viewModels()
+    lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
+//        binding.bottomNav.setOnNavigationItemSelectedListener {
+//            when (it.itemId) {
+//                R.id.home -> setCurrentFragment(AnimeListFragment())
+//                R.id.favorite -> setCurrentFragment(FavoriteFragment())
+//            }
+//            true
+//        }
     }
 
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
-        val searchView = menu.findItem(R.id.actionSearch).actionView as SearchView
-        searchView.queryHint = "Enter anime title..."
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                return true
-            }
-
-            override fun onQueryTextSubmit(query: String): Boolean {
-                animeViewModel.updateQuery(query)
-                return true
-            }
-
-        })
-
-        return true
-    }
+    private fun setCurrentFragment(fragment: Fragment) =
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.navHostFragment, fragment)
+            commit()
+        }
 }

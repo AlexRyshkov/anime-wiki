@@ -6,13 +6,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.animelist.data.model.Anime
 import com.example.animelist.network.AnimeApi
+import com.example.animelist.network.ApiService
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Singleton
 
 // Лучше вынести в пакет с моделями
 enum class AnimeApiStatus { LOADING, ERROR, DONE }
 
-
-class AnimeViewModel : ViewModel() {
+@HiltViewModel
+class AnimeViewModel @Inject constructor(
+val animeApi: ApiService
+) : ViewModel() {
     // Можно обойтись одной live data, создав вместо enum иерархию классов, которые будут уже у себя
     //  инкапсулировать статус, данные, позицию и проч.
     private val _animeList = MutableLiveData<MutableList<Anime>>(mutableListOf())
@@ -54,7 +60,7 @@ class AnimeViewModel : ViewModel() {
             _status.value = AnimeApiStatus.LOADING
 
             try {
-                val response = AnimeApi.retrofitService.getAnime(malId)
+                val response = animeApi.getAnime(malId)
                 _anime.value = response.data
                 _status.value = AnimeApiStatus.DONE
             }
@@ -69,7 +75,7 @@ class AnimeViewModel : ViewModel() {
         viewModelScope.launch {
             _status.value = AnimeApiStatus.LOADING
             try {
-                val response = AnimeApi.retrofitService.getAnimeList(currentPage, _query)
+                val response = animeApi.getAnimeList(currentPage, _query)
                 addToList(response.data)
                 _status.value = AnimeApiStatus.DONE
             } catch (e: Exception) {
