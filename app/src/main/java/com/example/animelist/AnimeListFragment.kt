@@ -1,11 +1,11 @@
 package com.example.animelist
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -15,12 +15,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.animelist.data.AnimeApiStatus
 import com.example.animelist.data.AnimeListAdapter
 import com.example.animelist.data.AnimeViewModel
-import com.example.animelist.data.model.Anime
+import com.example.animelist.database.Anime
 import com.example.animelist.databinding.FragmentAnimeListBinding
 
 
 class AnimeListFragment : Fragment() {
-    // lateinit плохая тема, лучше не использовать, лучше использовать подход с двумя переменными
     private var _binding: FragmentAnimeListBinding? = null
     private val animeViewModel: AnimeViewModel by activityViewModels()
 

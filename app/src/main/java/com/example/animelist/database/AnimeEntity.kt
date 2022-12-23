@@ -1,5 +1,8 @@
-package com.example.animelist.data.model
+package com.example.animelist.database
 
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 
 data class AnimeListResponse(
@@ -10,13 +13,15 @@ data class AnimeResponse(
     val data: Anime
 )
 
+@Entity
 data class Anime(
     val title: String,
     @Json(name = "mal_id")
+    @PrimaryKey
     val malId: Int,
-    val images: Images,
+    @Ignore val images: Images,
     val episodes: Int?,
-    )
+)
 
 data class Images(
     val webp: Webp

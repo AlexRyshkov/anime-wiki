@@ -4,24 +4,25 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.animelist.data.model.Anime
-import com.example.animelist.network.AnimeApi
+import com.example.animelist.database.Anime
+import com.example.animelist.database.AnimeDao
 import com.example.animelist.network.ApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.inject.Singleton
 
 // Лучше вынести в пакет с моделями
 enum class AnimeApiStatus { LOADING, ERROR, DONE }
 
 @HiltViewModel
 class AnimeViewModel @Inject constructor(
-val animeApi: ApiService
+    val animeApi: ApiService,
+    val animeDao: AnimeDao,
 ) : ViewModel() {
     // Можно обойтись одной live data, создав вместо enum иерархию классов, которые будут уже у себя
     //  инкапсулировать статус, данные, позицию и проч.
     private val _animeList = MutableLiveData<MutableList<Anime>>(mutableListOf())
+    private val _favoriteList = MutableLiveData<MutableList<Anime>>(mutableListOf())
     private val _status = MutableLiveData<AnimeApiStatus>()
 
     var currentPage: Int = 1
@@ -31,6 +32,7 @@ val animeApi: ApiService
 
     val status: LiveData<AnimeApiStatus> = _status
     val animeList: LiveData<MutableList<Anime>> = _animeList
+    val favoriteList: LiveData<MutableList<Anime>> = _favoriteList
 
     private var _query: String = ""
 
@@ -63,11 +65,18 @@ val animeApi: ApiService
                 val response = animeApi.getAnime(malId)
                 _anime.value = response.data
                 _status.value = AnimeApiStatus.DONE
-            }
-            catch (exception: Exception) {
+            } catch (exception: Exception) {
                 _status.value = AnimeApiStatus.ERROR
             }
         }
+    }
+
+    fun loadFavorite() {
+        _favoriteList.value = animeDao.getAll().toMutableList()
+    }
+
+    fun addToFavorite(anime: Anime) {
+        animeDao.insertAll(anime)
     }
 
     private fun getAnimeList() {

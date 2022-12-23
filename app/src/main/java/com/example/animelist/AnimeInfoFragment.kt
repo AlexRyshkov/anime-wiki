@@ -1,20 +1,18 @@
 package com.example.animelist
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import coil.clear
 import coil.load
 import com.example.animelist.data.AnimeApiStatus
 import com.example.animelist.data.AnimeViewModel
+import com.example.animelist.database.Anime
 import com.example.animelist.databinding.FragmentAnimeInfoBinding
-import com.example.animelist.data.model.Anime
 
 
 class AnimeInfoFragment : Fragment() {
@@ -33,6 +31,10 @@ class AnimeInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.backButton.setOnClickListener {
             findNavController().popBackStack()
+        }
+
+        binding.favoriteButton.setOnClickListener {
+            animeViewModel.addToFavorite(animeViewModel.anime.value!!)
         }
 
         val animeObserver = Observer<Anime?> { anime ->

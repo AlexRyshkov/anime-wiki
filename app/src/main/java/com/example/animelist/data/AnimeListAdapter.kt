@@ -1,14 +1,10 @@
 package com.example.animelist.data
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.animelist.R
-import com.example.animelist.data.model.Anime
+import com.example.animelist.database.Anime
 import com.example.animelist.databinding.FragmentAnimeItemBinding
 
 class AnimeListAdapter(
