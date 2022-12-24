@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -16,11 +17,11 @@ import com.example.animelist.data.AnimeApiStatus
 import com.example.animelist.data.AnimeListAdapter
 import com.example.animelist.data.AnimeViewModel
 import com.example.animelist.database.Anime
-import com.example.animelist.databinding.FragmentAnimeListBinding
+import com.example.animelist.databinding.FragmentHomeBinding
 
 
-class AnimeListFragment : Fragment() {
-    private var _binding: FragmentAnimeListBinding? = null
+class HomeFragment : Fragment() {
+    private var _binding: FragmentHomeBinding? = null
     private val animeViewModel: AnimeViewModel by activityViewModels()
 
     private val binding get() = _binding!!
@@ -28,7 +29,7 @@ class AnimeListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentAnimeListBinding.inflate(inflater, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -36,16 +37,6 @@ class AnimeListFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility", "NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initScrollListener()
-
-        (activity as MainActivity).binding.bottomNav.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.home -> Navigation.findNavController(activity as MainActivity,R.id.navHostFragment)
-                    .navigate(R.id.action_favoriteFragment_to_animeListFragment)
-                R.id.favorite -> Navigation.findNavController(activity as MainActivity, R.id.navHostFragment)
-                    .navigate(R.id.action_animeListFragment_to_favoriteFragment)
-            }
-            true
-        }
 
         binding.searchEditText.setOnEditorActionListener { textView, actionId, _ ->
             var handled = false
@@ -58,12 +49,17 @@ class AnimeListFragment : Fragment() {
             handled
         }
 
+        binding.clearImageButton.setOnClickListener {
+            animeViewModel.updateQuery("")
+            binding.searchEditText.setText("")
+        }
+
         val animeClickListener: (Anime) -> Unit = { anime ->
             val bundle = Bundle()
             // Строковые литералы лучше выносить в коснтанты
             bundle.putInt("malId", anime.malId)
             Navigation.findNavController(view)
-                .navigate(R.id.action_animeListFragment_to_animeInfoFragment2, bundle)
+                .navigate(R.id.action_homeDest_to_animeInfoFragment, bundle)
         }
 
         val statusObserver = Observer<AnimeApiStatus> { status ->

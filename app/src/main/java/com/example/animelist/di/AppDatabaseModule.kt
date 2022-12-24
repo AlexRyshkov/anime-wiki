@@ -26,6 +26,6 @@ object AppDatabaseModule {
         return Room.databaseBuilder(
             appContext,
             AppDatabase::class.java, "anime.db"
-        ).build()
+        ).allowMainThreadQueries().build()
     }
 }

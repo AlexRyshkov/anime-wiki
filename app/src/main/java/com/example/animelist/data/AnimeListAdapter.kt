@@ -31,7 +31,7 @@ class AnimeListAdapter(
             onItemClick(item)
         }
         holder.textViewTitle.text = item.title
-        holder.animeImageView.load(item.images.webp.large_image_url)
+        holder.animeImageView.load(item.image)
     }
 
     override fun getItemCount(): Int {

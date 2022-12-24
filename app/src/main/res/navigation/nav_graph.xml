@@ -3,32 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navGraph"
-    app:startDestination="@id/animeListFragment">
+    app:startDestination="@id/homeDest">
 
     <fragment
-        android:id="@+id/animeListFragment"
-        android:name="com.example.animelist.AnimeListFragment"
-        android:label="AnimeListFragment" >
+        android:id="@+id/homeDest"
+        android:name="com.example.animelist.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_animeListFragment_to_animeInfoFragment2"
-            app:destination="@id/animeInfoFragment">
-            <argument android:name="malId" app:argType="integer" />
-        </action>
-        <action
-            android:id="@+id/action_animeListFragment_to_favoriteFragment"
-            app:destination="@id/favoriteFragment" />
+            android:id="@+id/action_homeDest_to_animeInfoFragment"
+            app:destination="@id/animeInfoDest" />
     </fragment>
     <fragment
-        android:id="@+id/animeInfoFragment"
+        android:id="@+id/favoriteDest"
+        android:name="com.example.animelist.FavoriteFragment"
+        android:label="Favorite"
+        tools:layout="@layout/fragment_favorite">
+        <action
+            android:id="@+id/action_favoriteDest_to_animeInfoFragment"
+            app:destination="@id/animeInfoDest" />
+    </fragment>
+    <fragment
+        android:id="@+id/animeInfoDest"
         android:name="com.example.animelist.AnimeInfoFragment"
         android:label="fragment_anime_info"
-        tools:layout="@layout/fragment_anime_info" />
-    <fragment
-        android:id="@+id/favoriteFragment"
-        android:name="com.example.animelist.FavoriteFragment"
-        android:label="FavoriteFragment" >
-        <action
-            android:id="@+id/action_favoriteFragment_to_animeListFragment"
-            app:destination="@id/animeListFragment" />
+        tools:layout="@layout/fragment_anime_info">
+        <argument
+            android:name="malId"
+            app:argType="integer" />
     </fragment>
 </navigation>

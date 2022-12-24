@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -34,15 +35,26 @@ class AnimeInfoFragment : Fragment() {
         }
 
         binding.favoriteButton.setOnClickListener {
-            animeViewModel.addToFavorite(animeViewModel.anime.value!!)
+            val anime = animeViewModel.anime.value!!
+            if (animeViewModel.isInFavorite(anime.malId)) {
+                animeViewModel.removeFromFavorite(anime)
+                binding.favoriteButton.setImageResource(R.drawable.ic_heart_plus)
+                Toast.makeText(context, "Removed from favorite", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                animeViewModel.addToFavorite(anime)
+                binding.favoriteButton.setImageResource(R.drawable.ic_heart_minus)
+                Toast.makeText(context, "Added to favorite", Toast.LENGTH_SHORT).show()
+            }
         }
 
         val animeObserver = Observer<Anime?> { anime ->
             if (anime != null) {
                 binding.appBarTitleTextView.text = anime.title
-                binding.posterImageView.load(anime.images.webp.large_image_url)
+                binding.posterImageView.load(anime.image)
                 binding.titleTextView.text = getString(R.string.title, anime.title)
                 binding.episodesTextView.text = getString(R.string.episodes, anime.episodes)
+                binding.favoriteButton.setImageResource(if (animeViewModel.isInFavorite(anime.malId)) R.drawable.ic_heart_minus else R.drawable.ic_heart_plus)
             }
         }
 

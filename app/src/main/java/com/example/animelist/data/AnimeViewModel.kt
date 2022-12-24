@@ -1,5 +1,6 @@
 package com.example.animelist.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,9 +8,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.animelist.database.Anime
 import com.example.animelist.database.AnimeDao
 import com.example.animelist.network.ApiService
+import com.example.animelist.toEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Singleton
 
 // Лучше вынести в пакет с моделями
 enum class AnimeApiStatus { LOADING, ERROR, DONE }
@@ -63,7 +66,7 @@ class AnimeViewModel @Inject constructor(
 
             try {
                 val response = animeApi.getAnime(malId)
-                _anime.value = response.data
+                _anime.value = response.data.toEntity()
                 _status.value = AnimeApiStatus.DONE
             } catch (exception: Exception) {
                 _status.value = AnimeApiStatus.ERROR
@@ -72,11 +75,37 @@ class AnimeViewModel @Inject constructor(
     }
 
     fun loadFavorite() {
-        _favoriteList.value = animeDao.getAll().toMutableList()
+        viewModelScope.launch {
+            val favoriteList =  animeDao.getAll().toMutableList()
+            _favoriteList.value = favoriteList
+        }
     }
 
     fun addToFavorite(anime: Anime) {
-        animeDao.insertAll(anime)
+        try {
+            animeDao.insertAll(anime)
+            _favoriteList.value?.add(anime)
+        }
+        catch (exception: Exception){
+            Log.e("ADD_TO_FAVORITE", exception.message!!)
+        }
+    }
+
+    fun removeFromFavorite(anime: Anime) {
+        try {
+            animeDao.delete(anime)
+            _favoriteList.value?.remove(anime)
+        }
+        catch (exception: Exception){
+            Log.e("REMOVE_FROM_FAVORITE", exception.message!!)
+        }
+    }
+
+    fun isInFavorite(malId: Int) :Boolean {
+        if (favoriteList.value != null) {
+            return favoriteList.value!!.any { it.malId == malId }
+        }
+        return false;
     }
 
     private fun getAnimeList() {
@@ -85,7 +114,7 @@ class AnimeViewModel @Inject constructor(
             _status.value = AnimeApiStatus.LOADING
             try {
                 val response = animeApi.getAnimeList(currentPage, _query)
-                addToList(response.data)
+                addToList(response.data.map { it.toEntity() })
                 _status.value = AnimeApiStatus.DONE
             } catch (e: Exception) {
                 _status.value = AnimeApiStatus.ERROR
