@@ -1,4 +1,4 @@
-package com.example.animelist
+package com.example.animelist.di
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

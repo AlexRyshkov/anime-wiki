@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Anime List"
+rootProject.name = "Anime Wiki"
 include ':app'

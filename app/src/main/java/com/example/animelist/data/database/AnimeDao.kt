@@ -1,4 +1,4 @@
-package com.example.animelist.database
+package com.example.animelist.data.database
 
 import androidx.room.Dao
 import androidx.room.Delete

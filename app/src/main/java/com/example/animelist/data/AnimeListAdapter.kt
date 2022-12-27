@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.animelist.database.Anime
+import com.example.animelist.data.database.Anime
 import com.example.animelist.databinding.FragmentAnimeItemBinding
 
 class AnimeListAdapter(

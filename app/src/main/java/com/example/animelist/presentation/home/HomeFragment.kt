@@ -1,11 +1,10 @@
-package com.example.animelist
+package com.example.animelist.presentation.home
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -13,11 +12,13 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.animelist.R
 import com.example.animelist.data.AnimeApiStatus
 import com.example.animelist.data.AnimeListAdapter
 import com.example.animelist.data.AnimeViewModel
-import com.example.animelist.database.Anime
+import com.example.animelist.data.database.Anime
 import com.example.animelist.databinding.FragmentHomeBinding
+import com.example.animelist.hideKeyboard
 
 
 class HomeFragment : Fragment() {

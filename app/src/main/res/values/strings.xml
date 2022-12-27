@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Anime List</string>
+    <string name="app_name">Anime Wiki</string>
     <string name="search">Search title...</string>
     <string name="title">Title: %s</string>
     <string name="episodes">Episodes: %d</string>

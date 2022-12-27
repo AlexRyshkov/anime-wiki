@@ -1,4 +1,4 @@
-package com.example.animelist
+package com.example.animelist.presentation.favorite
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.animelist.R
 import com.example.animelist.data.AnimeListAdapter
 import com.example.animelist.data.AnimeViewModel
 import com.example.animelist.databinding.FragmentFavoriteBinding

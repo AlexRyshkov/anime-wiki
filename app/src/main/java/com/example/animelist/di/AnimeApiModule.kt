@@ -1,6 +1,6 @@
 package com.example.animelist.di
 
-import com.example.animelist.network.ApiService
+import com.example.animelist.data.network.AnimeApiService
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -17,8 +17,8 @@ private const val BASE_URL = "https://api.jikan.moe/v4/"
 object AnimeApiModule {
 
     @Provides
-    fun provideApi(retrofit: Retrofit): ApiService {
-        return retrofit.create(ApiService::class.java)
+    fun provideApi(retrofit: Retrofit): AnimeApiService {
+        return retrofit.create(AnimeApiService::class.java)
     }
 
     @Provides

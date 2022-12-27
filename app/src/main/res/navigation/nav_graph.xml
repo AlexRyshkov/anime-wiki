@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeDest"
-        android:name="com.example.animelist.HomeFragment"
+        android:name="com.example.animelist.presentation.home.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/favoriteDest"
-        android:name="com.example.animelist.FavoriteFragment"
+        android:name="com.example.animelist.presentation.favorite.FavoriteFragment"
         android:label="Favorite"
         tools:layout="@layout/fragment_favorite">
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/animeInfoDest"
-        android:name="com.example.animelist.AnimeInfoFragment"
+        android:name="com.example.animelist.presentation.info.InfoFragment"
         android:label="fragment_anime_info"
         tools:layout="@layout/fragment_anime_info">
         <argument

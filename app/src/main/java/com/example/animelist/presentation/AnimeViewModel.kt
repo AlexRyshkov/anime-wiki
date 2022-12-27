@@ -5,21 +5,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.animelist.database.Anime
-import com.example.animelist.database.AnimeDao
-import com.example.animelist.network.ApiService
+import com.example.animelist.data.database.Anime
+import com.example.animelist.data.database.AnimeDao
+import com.example.animelist.data.network.AnimeApiService
 import com.example.animelist.toEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.inject.Singleton
 
 // Лучше вынести в пакет с моделями
 enum class AnimeApiStatus { LOADING, ERROR, DONE }
 
 @HiltViewModel
 class AnimeViewModel @Inject constructor(
-    val animeApi: ApiService,
+    val animeApi: AnimeApiService,
     val animeDao: AnimeDao,
 ) : ViewModel() {
     // Можно обойтись одной live data, создав вместо enum иерархию классов, которые будут уже у себя
