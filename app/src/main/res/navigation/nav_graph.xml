@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/animeInfoDest"
-        android:name="com.example.animelist.presentation.info.InfoFragment"
+        android:name="com.example.animelist.presentation.info.AnimeInfoFragment"
         android:label="fragment_anime_info"
         tools:layout="@layout/fragment_anime_info">
         <argument
