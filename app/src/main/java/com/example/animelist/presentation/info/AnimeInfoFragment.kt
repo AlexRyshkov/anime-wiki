@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import coil.load
 import com.example.animelist.R
 import com.example.animelist.data.AnimeApiStatus
-import com.example.animelist.data.database.Anime
+import com.example.animelist.di.database.Anime
 import com.example.animelist.databinding.FragmentAnimeInfoBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,20 +37,20 @@ class AnimeInfoFragment : Fragment() {
                 findNavController().popBackStack()
             }
 
-//            favoriteButton.setOnClickListener {
-//                val anime = animeInfoViewModel.anime.value!!
-//                if (animeInfoViewModel.isInFavorite(anime.malId)) {
-//                    animeInfoViewModel.removeFromFavorite(anime)
-//                    favoriteButton.setImageResource(R.drawable.ic_heart_plus)
-//                    Toast.makeText(context, "Removed from favorite", Toast.LENGTH_SHORT).show()
-//                }
-//                else {
-//                    animeInfoViewModel.addToFavorite(anime)
-//                    favoriteButton.setImageResource(R.drawable.ic_heart_minus)
-//                    Toast.makeText(context, "Added to favorite", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//
+            favoriteButton.setOnClickListener {
+                val anime = animeInfoViewModel.anime.value!!
+                if (animeInfoViewModel.isInFavorite(anime.malId)) {
+                    animeInfoViewModel.removeFavorite(anime)
+                    favoriteButton.setImageResource(R.drawable.ic_heart_plus)
+                    Toast.makeText(context, "Removed from favorite", Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    animeInfoViewModel.addToFavorite(anime)
+                    favoriteButton.setImageResource(R.drawable.ic_heart_minus)
+                    Toast.makeText(context, "Added to favorite", Toast.LENGTH_SHORT).show()
+                }
+            }
+
             val animeObserver = Observer<Anime?> { anime ->
                 if (anime != null) {
                     appBarTitleTextView.text = anime.title
@@ -72,10 +72,5 @@ class AnimeInfoFragment : Fragment() {
             animeInfoViewModel.anime.observe(viewLifecycleOwner, animeObserver)
             animeInfoViewModel.status.observe(viewLifecycleOwner, statusObserver)
         }
-    }
-
-    override fun onDestroyView() {
-//        animeInfoViewModel.clearAnime()
-        super.onDestroyView()
     }
 }

@@ -1,14 +1,14 @@
-package com.example.animelist.data
+package com.example.animelist.di
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.animelist.data.database.Anime
+import com.example.animelist.di.database.Anime
 import com.example.animelist.databinding.FragmentAnimeItemBinding
 
 class AnimeListAdapter(
-    private val items: MutableList<Anime>,
+    private val items: List<Anime>,
     // Можно просто Anime, давать имя в типа странно и не нужно
     private val onItemClick: (anime: Anime) -> Unit
 ) : RecyclerView.Adapter<AnimeListAdapter.AnimeListViewholder>() {

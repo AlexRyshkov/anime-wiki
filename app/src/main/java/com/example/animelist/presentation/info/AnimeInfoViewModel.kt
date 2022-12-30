@@ -3,14 +3,14 @@ package com.example.animelist.presentation.info
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.example.animelist.data.database.Anime
+import com.example.animelist.di.database.Anime
+import com.example.animelist.domain.AddFavoriteUseCase
 import com.example.animelist.domain.FetchAnimeByIdUseCase
-import com.example.animelist.domain.GetFavoriteUseCase
+import com.example.animelist.domain.GetAllFavoriteUseCase
+import com.example.animelist.domain.RemoveFavoriteUseCase
 import com.example.animelist.presentation.BaseAnimeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 enum class ApiFetchStatus { LOADING, ERROR, DONE }
@@ -18,7 +18,9 @@ enum class ApiFetchStatus { LOADING, ERROR, DONE }
 @HiltViewModel
 class AnimeInfoViewModel @Inject constructor(
     private val fetchAnimeUseCase: FetchAnimeByIdUseCase,
-    override val getFavoriteUseCase: GetFavoriteUseCase,
+    override val addFavoriteUseCase: AddFavoriteUseCase,
+    override val removeFavoriteUseCase: RemoveFavoriteUseCase,
+    override val getAllFavoriteUseCase: GetAllFavoriteUseCase,
     savedStateHandle: SavedStateHandle,
 ) : BaseAnimeViewModel() {
     private val _anime = MutableLiveData<Anime?>()
@@ -26,6 +28,7 @@ class AnimeInfoViewModel @Inject constructor(
     private val _malId: Int = requireNotNull(savedStateHandle["malId"])
 
     init {
+        getAllFavorite()
         viewModelScope.launch {
             fetchAnime(_malId)
         }

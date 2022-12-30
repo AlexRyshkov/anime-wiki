@@ -3,7 +3,7 @@ package com.example.animelist.di
 import android.content.Context
 import androidx.room.Room
 import com.example.animelist.data.AppDatabase
-import com.example.animelist.data.database.AnimeDao
+import com.example.animelist.di.database.AnimeDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

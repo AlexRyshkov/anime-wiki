@@ -14,16 +14,16 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.animelist.R
 import com.example.animelist.data.AnimeApiStatus
-import com.example.animelist.data.AnimeListAdapter
-import com.example.animelist.data.AnimeViewModel
-import com.example.animelist.data.database.Anime
+import com.example.animelist.di.AnimeListAdapter
+import com.example.animelist.data.HomeViewModel
+import com.example.animelist.di.database.Anime
 import com.example.animelist.databinding.FragmentHomeBinding
 import com.example.animelist.hideKeyboard
 
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
-    private val animeViewModel: AnimeViewModel by activityViewModels()
+    private val homeViewModel: HomeViewModel by activityViewModels()
 
     private val binding get() = _binding!!
 
@@ -42,7 +42,7 @@ class HomeFragment : Fragment() {
         binding.searchEditText.setOnEditorActionListener { textView, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                animeViewModel.updateQuery(textView.text.toString())
+                homeViewModel.updateQuery(textView.text.toString())
                 textView.hideKeyboard()
                 textView.clearFocus()
                 handled = true
@@ -51,7 +51,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.clearImageButton.setOnClickListener {
-            animeViewModel.updateQuery("")
+            homeViewModel.updateQuery("")
             binding.searchEditText.setText("")
         }
 
@@ -81,8 +81,8 @@ class HomeFragment : Fragment() {
             }
         }
 
-        animeViewModel.status.observe(viewLifecycleOwner, statusObserver)
-        animeViewModel.animeList.observe(viewLifecycleOwner, animeListObserver)
+        homeViewModel.status.observe(viewLifecycleOwner, statusObserver)
+        homeViewModel.animeList.observe(viewLifecycleOwner, animeListObserver)
     }
 
     private fun initScrollListener() {
@@ -93,12 +93,12 @@ class HomeFragment : Fragment() {
                 super.onScrolled(recyclerView, dx, dy)
                 val gridLayoutManager = recyclerView.layoutManager as GridLayoutManager
                 // Вот эту штуку лучше во вью модель вынести, а фрагмент будет просто вызывать какой-то один метод
-                if (animeViewModel.status.value != AnimeApiStatus.LOADING) {
+                if (homeViewModel.status.value != AnimeApiStatus.LOADING) {
                     if (gridLayoutManager.findLastCompletelyVisibleItemPosition() ==
                         // Такие простыни кода лучше выносить в отдельные функции / val get()
-                        animeViewModel.animeList.value?.size?.minus(1)
+                        homeViewModel.animeList.value?.size?.minus(1)
                     ) {
-                        animeViewModel.nextPage()
+                        homeViewModel.nextPage()
                     }
                 }
             }

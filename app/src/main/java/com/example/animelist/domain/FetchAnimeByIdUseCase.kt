@@ -1,6 +1,6 @@
 package com.example.animelist.domain
 
-import com.example.animelist.data.database.Anime
+import com.example.animelist.di.database.Anime
 import com.example.animelist.data.network.AnimeApiService
 import com.example.animelist.toEntity
 import kotlinx.coroutines.Dispatchers
@@ -12,7 +12,7 @@ class FetchAnimeByIdUseCase @Inject constructor(
     private val animeApi: AnimeApiService
 ) {
 
-    suspend fun invoke(malId: Int): Anime  {
+    suspend fun invoke(malId: Int): Anime {
         val response = withContext(Dispatchers.IO) {
              animeApi.getAnime(malId)
         }

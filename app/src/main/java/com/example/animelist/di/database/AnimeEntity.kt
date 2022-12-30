@@ -1,4 +1,4 @@
-package com.example.animelist.data.database
+package com.example.animelist.di.database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

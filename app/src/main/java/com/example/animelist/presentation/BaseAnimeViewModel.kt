@@ -3,23 +3,37 @@ package com.example.animelist.presentation
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.animelist.data.database.Anime
-import com.example.animelist.data.database.AnimeDao
-import com.example.animelist.domain.GetFavoriteUseCase
+import com.example.animelist.di.database.Anime
+import com.example.animelist.domain.AddFavoriteUseCase
+import com.example.animelist.domain.GetAllFavoriteUseCase
+import com.example.animelist.domain.RemoveFavoriteUseCase
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-abstract class BaseAnimeViewModel :
+abstract class BaseAnimeViewModel  :
     ViewModel() {
     private val _favoriteList = MutableLiveData<List<Anime>>()
-    abstract val getFavoriteUseCase: GetFavoriteUseCase
+    abstract val getAllFavoriteUseCase: GetAllFavoriteUseCase
+    abstract val addFavoriteUseCase: AddFavoriteUseCase
+    abstract val removeFavoriteUseCase: RemoveFavoriteUseCase
+
+    fun getAllFavorite() {
+        viewModelScope.launch {
+            val result = getAllFavoriteUseCase()
+            result.collect {
+                _favoriteList.value = it
+            }
+        }
+    }
 
     val favoriteList
         get() = _favoriteList
 
-    suspend fun getFavoriteFromDatabase() {
-        val result = getFavoriteUseCase.invoke()
-        _favoriteList.value = result
+    fun addToFavorite(anime: Anime) {
+        addFavoriteUseCase(anime)
+    }
+
+    fun removeFavorite(anime: Anime) {
+        removeFavoriteUseCase(anime)
     }
 
     fun isInFavorite(malId: Int) :Boolean {

@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.animelist.data.database.Anime
-import com.example.animelist.data.database.AnimeDao
+import com.example.animelist.di.database.Anime
+import com.example.animelist.di.database.AnimeDao
 import com.example.animelist.data.network.AnimeApiService
 import com.example.animelist.toEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,14 +17,13 @@ import javax.inject.Inject
 enum class AnimeApiStatus { LOADING, ERROR, DONE }
 
 @HiltViewModel
-class AnimeViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     val animeApi: AnimeApiService,
     val animeDao: AnimeDao,
 ) : ViewModel() {
     // Можно обойтись одной live data, создав вместо enum иерархию классов, которые будут уже у себя
     //  инкапсулировать статус, данные, позицию и проч.
     private val _animeList = MutableLiveData<MutableList<Anime>>(mutableListOf())
-    private val _favoriteList = MutableLiveData<MutableList<Anime>>(mutableListOf())
     private val _status = MutableLiveData<AnimeApiStatus>()
 
     var currentPage: Int = 1
@@ -34,10 +33,8 @@ class AnimeViewModel @Inject constructor(
 
     val status: LiveData<AnimeApiStatus> = _status
     val animeList: LiveData<MutableList<Anime>> = _animeList
-    val favoriteList: LiveData<MutableList<Anime>> = _favoriteList
 
     private var _query: String = ""
-
 
     init {
         getAnimeList()
@@ -62,7 +59,7 @@ class AnimeViewModel @Inject constructor(
     fun getAnime(malId: Int) {
         viewModelScope.launch {
             _status.value = AnimeApiStatus.LOADING
-
+            // TODO возвращать из юз кейса статус + данные + убрать трай кэч
             try {
                 val response = animeApi.getAnime(malId)
                 _anime.value = response.data.toEntity()
@@ -71,40 +68,6 @@ class AnimeViewModel @Inject constructor(
                 _status.value = AnimeApiStatus.ERROR
             }
         }
-    }
-
-    fun loadFavorite() {
-        viewModelScope.launch {
-            val favoriteList =  animeDao.getAll().toMutableList()
-            _favoriteList.value = favoriteList
-        }
-    }
-
-    fun addToFavorite(anime: Anime) {
-        try {
-            animeDao.insertAll(anime)
-            _favoriteList.value?.add(anime)
-        }
-        catch (exception: Exception){
-            Log.e("ADD_TO_FAVORITE", exception.message!!)
-        }
-    }
-
-    fun removeFromFavorite(anime: Anime) {
-        try {
-            animeDao.delete(anime)
-            _favoriteList.value?.remove(anime)
-        }
-        catch (exception: Exception){
-            Log.e("REMOVE_FROM_FAVORITE", exception.message!!)
-        }
-    }
-
-    fun isInFavorite(malId: Int) :Boolean {
-        if (favoriteList.value != null) {
-            return favoriteList.value!!.any { it.malId == malId }
-        }
-        return false;
     }
 
     private fun getAnimeList() {

@@ -1,7 +1,7 @@
 package com.example.animelist.data.network
 
-import com.example.animelist.data.database.AnimeListResponse
-import com.example.animelist.data.database.AnimeResponse
+import com.example.animelist.di.database.AnimeListResponse
+import com.example.animelist.di.database.AnimeResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
