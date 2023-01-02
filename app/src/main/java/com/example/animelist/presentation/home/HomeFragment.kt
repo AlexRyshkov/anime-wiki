@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.animelist.R
 import com.example.animelist.data.AnimeApiStatus
-import com.example.animelist.di.AnimeListAdapter
 import com.example.animelist.data.HomeViewModel
-import com.example.animelist.di.database.Anime
 import com.example.animelist.databinding.FragmentHomeBinding
+import com.example.animelist.di.AnimeListAdapter
+import com.example.animelist.di.database.Anime
 import com.example.animelist.hideKeyboard
 
 

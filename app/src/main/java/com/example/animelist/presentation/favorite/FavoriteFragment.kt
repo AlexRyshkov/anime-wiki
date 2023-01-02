@@ -9,8 +9,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.animelist.R
-import com.example.animelist.di.AnimeListAdapter
 import com.example.animelist.databinding.FragmentFavoriteBinding
+import com.example.animelist.di.AnimeListAdapter
 import com.example.animelist.di.database.Anime
 import com.example.animelist.presentation.info.FavoriteViewModel
 

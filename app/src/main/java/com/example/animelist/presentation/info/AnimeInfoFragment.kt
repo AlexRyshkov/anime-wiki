@@ -11,9 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.example.animelist.R
-import com.example.animelist.data.AnimeApiStatus
-import com.example.animelist.di.database.Anime
 import com.example.animelist.databinding.FragmentAnimeInfoBinding
+import com.example.animelist.di.database.Anime
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

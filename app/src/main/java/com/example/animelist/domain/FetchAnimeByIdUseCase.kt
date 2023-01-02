@@ -1,7 +1,7 @@
 package com.example.animelist.domain
 
-import com.example.animelist.di.database.Anime
 import com.example.animelist.data.network.AnimeApiService
+import com.example.animelist.di.database.Anime
 import com.example.animelist.toEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
