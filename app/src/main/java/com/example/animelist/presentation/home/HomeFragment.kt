@@ -14,12 +14,15 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.animelist.*
+import com.example.animelist.MainActivity
+import com.example.animelist.R
 import com.example.animelist.data.AnimeApiStatus
 import com.example.animelist.data.HomeViewModel
 import com.example.animelist.databinding.FragmentHomeBinding
-import com.example.animelist.presentation.AnimeListAdapter
 import com.example.animelist.di.database.Anime
+import com.example.animelist.getLayoutManagerSpanCount
+import com.example.animelist.hideKeyboard
+import com.example.animelist.presentation.AnimeListAdapter
 
 
 class HomeFragment : Fragment() {
@@ -91,12 +94,8 @@ class HomeFragment : Fragment() {
 
         val animeListObserver = Observer<MutableList<Anime>> { animeList ->
             if (binding.animeRecyclerView.adapter == null) {
-                binding.animeRecyclerView.layoutManager = GridLayoutManager(
-                    context,
-                    getLayoutManagerSpanCount((requireActivity() as MainActivity).widthWindowSizeClass),
-                    GridLayoutManager.VERTICAL,
-                    false
-                )
+                (binding.animeRecyclerView.layoutManager as GridLayoutManager).spanCount =
+                    getLayoutManagerSpanCount((requireActivity() as MainActivity).widthWindowSizeClass)
                 binding.animeRecyclerView.adapter = AnimeListAdapter(animeList, animeClickListener)
             } else {
                 binding.animeRecyclerView.adapter?.notifyDataSetChanged()

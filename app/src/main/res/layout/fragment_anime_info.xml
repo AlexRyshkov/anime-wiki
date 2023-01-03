@@ -12,7 +12,8 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:padding="16dp">
+        android:padding="16dp"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,7 +36,8 @@
                 android:layout_marginLeft="20dp"
                 android:layout_weight="1"
                 android:textColor="#ffffff"
-                tools:text="Naruto" />
+                android:singleLine="true"
+                tools:text="title" />
 
             <ImageButton
                 android:id="@+id/favoriteButton"

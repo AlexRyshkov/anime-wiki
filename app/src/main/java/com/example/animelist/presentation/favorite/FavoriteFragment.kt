@@ -12,11 +12,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.animelist.MainActivity
 import com.example.animelist.R
-import com.example.animelist.WindowSizeClass
 import com.example.animelist.databinding.FragmentFavoriteBinding
-import com.example.animelist.presentation.AnimeListAdapter
 import com.example.animelist.di.database.Anime
 import com.example.animelist.getLayoutManagerSpanCount
+import com.example.animelist.presentation.AnimeListAdapter
 import com.example.animelist.presentation.info.FavoriteViewModel
 
 class FavoriteFragment : Fragment() {
@@ -46,9 +45,9 @@ class FavoriteFragment : Fragment() {
                         bundle.putInt("malId", anime.malId)
                         findNavController().navigate(R.id.animeInfoDest, bundle)
                     }
-                    binding.favoriteRecyclerView.layoutManager = GridLayoutManager(context, getLayoutManagerSpanCount((requireActivity() as MainActivity).widthWindowSizeClass), GridLayoutManager.VERTICAL, false)
-                }
-                else {
+                    (binding.favoriteRecyclerView.layoutManager as GridLayoutManager).spanCount =
+                        getLayoutManagerSpanCount((requireActivity() as MainActivity).widthWindowSizeClass)
+                } else {
                     binding.placeholderTextView.visibility = View.VISIBLE
                 }
             } else {
