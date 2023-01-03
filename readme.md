@@ -2,7 +2,6 @@
 a simple app for searching anime information using `https://jikan.moe/` API.
 Application is designed with MVVM and clean architecture concepts
 
-
 ## Used Technologies
 - [Retrofit](https://github.com/square/retrofit) - HTTP client for api
 - [Moshi](https://github.com/square/moshi) - JSON library
