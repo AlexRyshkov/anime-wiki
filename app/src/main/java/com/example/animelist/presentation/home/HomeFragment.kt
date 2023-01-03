@@ -58,6 +58,7 @@ class HomeFragment : Fragment() {
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 homeViewModel.searchWithQuery()
+                binding.animeRecyclerView.layoutManager?.scrollToPosition(0)
                 textView.hideKeyboard()
                 textView.clearFocus()
                 handled = true
@@ -69,6 +70,7 @@ class HomeFragment : Fragment() {
             homeViewModel.updateQuery("")
             homeViewModel.searchWithQuery()
             binding.searchEditText.setText("")
+            binding.animeRecyclerView.layoutManager?.scrollToPosition(0)
         }
 
         val animeClickListener: (Anime) -> Unit = { anime ->
