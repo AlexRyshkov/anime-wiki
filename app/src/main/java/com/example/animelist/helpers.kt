@@ -13,6 +13,14 @@ fun View.hideKeyboard() {
 
 fun AnimeDTO.toEntity(): Anime {
     let {
-        return Anime(it.malId, it.title, it.images.webp.large_image_url, it.episodes)
+        return Anime(malId, title, images.webp.large_image_url, episodes, titleJapanese, type, score)
+    }
+}
+
+fun getLayoutManagerSpanCount(widthWindowSizeClass: WindowSizeClass): Int {
+    return when (widthWindowSizeClass) {
+        WindowSizeClass.COMPACT -> 2
+        WindowSizeClass.MEDIUM -> 3
+        WindowSizeClass.EXPANDED -> 4
     }
 }

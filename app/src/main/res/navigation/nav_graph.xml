@@ -3,33 +3,55 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navGraph"
-    app:startDestination="@id/homeDest">
+    app:startDestination="@id/homeNav">
 
-    <fragment
-        android:id="@+id/homeDest"
-        android:name="com.example.animelist.presentation.home.HomeFragment"
-        android:label="Home"
-        tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_homeDest_to_animeInfoFragment"
-            app:destination="@id/animeInfoDest" />
-    </fragment>
-    <fragment
-        android:id="@+id/favoriteDest"
-        android:name="com.example.animelist.presentation.favorite.FavoriteFragment"
-        android:label="Favorite"
-        tools:layout="@layout/fragment_favorite">
-        <action
-            android:id="@+id/action_favoriteDest_to_animeInfoFragment"
-            app:destination="@id/animeInfoDest" />
-    </fragment>
-    <fragment
-        android:id="@+id/animeInfoDest"
-        android:name="com.example.animelist.presentation.info.AnimeInfoFragment"
-        android:label="fragment_anime_info"
-        tools:layout="@layout/fragment_anime_info">
-        <argument
-            android:name="malId"
-            app:argType="integer" />
-    </fragment>
+    <navigation
+        android:id="@+id/homeNav"
+        app:startDestination="@id/homeDest">
+        <fragment
+            android:id="@+id/homeDest"
+            android:name="com.example.animelist.presentation.home.HomeFragment"
+            android:label="Home"
+            tools:layout="@layout/fragment_home">
+            <action
+                android:id="@+id/action_homeDest_to_animeInfoFragment"
+                app:destination="@id/animeInfoDest" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/animeInfoDest"
+            android:name="com.example.animelist.presentation.info.AnimeInfoFragment"
+            android:label="fragment_anime_info"
+            tools:layout="@layout/fragment_anime_info">
+            <argument
+                android:name="malId"
+                app:argType="integer" />
+        </fragment>
+    </navigation>
+
+
+    <navigation
+        android:id="@+id/favoriteNav"
+        app:startDestination="@id/favoriteDest">
+        <fragment
+            android:id="@+id/favoriteDest"
+            android:name="com.example.animelist.presentation.favorite.FavoriteFragment"
+            android:label="Favorite"
+            tools:layout="@layout/fragment_favorite">
+            <action
+                android:id="@+id/action_favoriteDest_to_animeInfoDest"
+                app:destination="@id/animeInfoDest" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/animeInfoDest"
+            android:name="com.example.animelist.presentation.info.AnimeInfoFragment"
+            android:label="fragment_anime_info"
+            tools:layout="@layout/fragment_anime_info">
+            <argument
+                android:name="malId"
+                app:argType="integer" />
+        </fragment>
+    </navigation>
+
 </navigation>

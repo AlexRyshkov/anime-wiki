@@ -19,4 +19,7 @@ data class Anime(
     val title: String,
     val image: String,
     val episodes: Int?,
+    val titleJapanese: String?,
+    val type: String?,
+    val score: Double?,
     )

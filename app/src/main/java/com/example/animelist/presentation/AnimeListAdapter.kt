@@ -1,4 +1,4 @@
-package com.example.animelist.di
+package com.example.animelist.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

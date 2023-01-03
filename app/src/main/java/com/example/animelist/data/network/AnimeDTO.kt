@@ -8,6 +8,10 @@ data class AnimeDTO(
     val title: String,
     val episodes: Int?,
     val images: Images,
+    @Json(name = "title_japanese")
+    val titleJapanese: String?,
+    val type: String?,
+    val score: Double?,
 )
 
 data class Images(
@@ -17,4 +21,5 @@ data class Images(
 data class Webp(
     val large_image_url: String
 )
+
 

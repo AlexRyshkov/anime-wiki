@@ -25,10 +25,17 @@
                 android:gravity="center_vertical"
                 android:paddingHorizontal="10dp">
 
+                <ImageView
+                    android:id="@+id/searchImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_search" />
+
                 <EditText
                     android:id="@+id/searchEditText"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/search_edit_text"
                     android:hint="@string/search"
@@ -40,7 +47,7 @@
                     android:id="@+id/clearImageButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_close" />
             </LinearLayout>

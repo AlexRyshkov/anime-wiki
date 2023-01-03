@@ -2,6 +2,8 @@ package com.example.animelist.presentation.home
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,13 +14,12 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.animelist.R
+import com.example.animelist.*
 import com.example.animelist.data.AnimeApiStatus
 import com.example.animelist.data.HomeViewModel
 import com.example.animelist.databinding.FragmentHomeBinding
-import com.example.animelist.di.AnimeListAdapter
+import com.example.animelist.presentation.AnimeListAdapter
 import com.example.animelist.di.database.Anime
-import com.example.animelist.hideKeyboard
 
 
 class HomeFragment : Fragment() {
@@ -34,15 +35,29 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    // Лучше разбить метод на более мелкие
     @SuppressLint("ClickableViewAccessibility", "NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initScrollListener()
 
+        binding.searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+                homeViewModel.updateQuery(s.toString())
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+        })
+
         binding.searchEditText.setOnEditorActionListener { textView, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                homeViewModel.updateQuery(textView.text.toString())
+                homeViewModel.searchWithQuery()
                 textView.hideKeyboard()
                 textView.clearFocus()
                 handled = true
@@ -52,6 +67,7 @@ class HomeFragment : Fragment() {
 
         binding.clearImageButton.setOnClickListener {
             homeViewModel.updateQuery("")
+            homeViewModel.searchWithQuery()
             binding.searchEditText.setText("")
         }
 
@@ -73,29 +89,32 @@ class HomeFragment : Fragment() {
 
         val animeListObserver = Observer<MutableList<Anime>> { animeList ->
             if (binding.animeRecyclerView.adapter == null) {
-                // Неправильно пересоздавать адаптеры
+                binding.animeRecyclerView.layoutManager = GridLayoutManager(
+                    context,
+                    getLayoutManagerSpanCount((requireActivity() as MainActivity).widthWindowSizeClass),
+                    GridLayoutManager.VERTICAL,
+                    false
+                )
                 binding.animeRecyclerView.adapter = AnimeListAdapter(animeList, animeClickListener)
             } else {
-                // Перейти на diff utils
                 binding.animeRecyclerView.adapter?.notifyDataSetChanged()
             }
         }
 
         homeViewModel.status.observe(viewLifecycleOwner, statusObserver)
         homeViewModel.animeList.observe(viewLifecycleOwner, animeListObserver)
+        homeViewModel.query.observe(viewLifecycleOwner) {
+            binding.clearImageButton.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
+        }
     }
 
     private fun initScrollListener() {
-        // Листенер добавляешь, но нигде потом не убираешь -> потенциальная утечка. Для отслеживания утечек памяти
-        //  есть библиотека LeakCanary
         binding.animeRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val gridLayoutManager = recyclerView.layoutManager as GridLayoutManager
-                // Вот эту штуку лучше во вью модель вынести, а фрагмент будет просто вызывать какой-то один метод
                 if (homeViewModel.status.value != AnimeApiStatus.LOADING) {
                     if (gridLayoutManager.findLastCompletelyVisibleItemPosition() ==
-                        // Такие простыни кода лучше выносить в отдельные функции / val get()
                         homeViewModel.animeList.value?.size?.minus(1)
                     ) {
                         homeViewModel.nextPage()

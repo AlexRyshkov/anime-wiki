@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/myCoordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -11,7 +12,6 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-
         android:padding="16dp">
 
         <LinearLayout
@@ -25,7 +25,8 @@
                 android:layout_height="24dp"
                 android:background="@android:color/transparent"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_arrow_back" />
+                android:src="@drawable/ic_arrow_back"
+                app:tint="@android:color/white" />
 
             <TextView
                 android:id="@+id/appBarTitleTextView"
@@ -33,6 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="1"
+                android:textColor="#ffffff"
                 tools:text="Naruto" />
 
             <ImageButton
@@ -41,6 +43,7 @@
                 android:layout_height="24dp"
                 android:background="@android:color/transparent"
                 android:scaleType="fitXY"
+                app:tint="@android:color/white"
                 tools:src="@drawable/ic_heart_plus" />
         </LinearLayout>
 
@@ -59,7 +62,7 @@
 
             <ImageView
                 android:id="@+id/posterImageView"
-                android:layout_width="0dp"
+                android:layout_width="300dp"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toTopOf="@id/titleTextView"
                 app:layout_constraintDimensionRatio="53:75"
@@ -72,8 +75,10 @@
                 android:id="@+id/titleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/posterImageView"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/posterImageView"
+                android:textStyle="bold"
                 tools:text="anime" />
 
             <TextView
@@ -82,7 +87,31 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@id/titleTextView"
                 app:layout_constraintTop_toBottomOf="@id/titleTextView"
+                android:textStyle="bold"
                 tools:text="episodes" />
+
+            <LinearLayout
+                android:id="@+id/starsLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/episodesTextView">
+
+                <TextView
+                    android:id="@+id/scoreTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:textStyle="bold"
+                    tools:text="Score: " />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:src="@drawable/ic_star" />
+            </LinearLayout>
 
             <ProgressBar
                 android:id="@+id/progressBar"
