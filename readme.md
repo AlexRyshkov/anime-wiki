@@ -10,4 +10,5 @@ Application is designed with MVVM and clean architecture concepts
 - Room - android library for working with data storage
 - NavigationUI - library for app navigation
 
-### Demo
+## Demo
+https://user-images.githubusercontent.com/53462957/210384670-fed14cf0-c804-4b2c-ad6e-803f08a8e812.mp4
