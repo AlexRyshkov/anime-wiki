@@ -10,7 +10,7 @@ import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-private const val BASE_URL = "https://api.jikan.moe/v4/"
+const val BASE_URL = "https://api.jikan.moe/v4/"
 
 @InstallIn(SingletonComponent::class)
 @Module
