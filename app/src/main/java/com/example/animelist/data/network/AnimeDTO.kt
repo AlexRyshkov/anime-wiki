@@ -12,6 +12,7 @@ data class AnimeDTO(
     val titleJapanese: String?,
     val type: String?,
     val score: Double?,
+    val url: String,
 )
 
 data class Images(

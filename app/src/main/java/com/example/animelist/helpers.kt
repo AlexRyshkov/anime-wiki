@@ -13,7 +13,7 @@ fun View.hideKeyboard() {
 
 fun AnimeDTO.toEntity(): Anime {
     let {
-        return Anime(malId, title, images.webp.large_image_url, episodes, titleJapanese, type, score)
+        return Anime(malId, title, images.webp.large_image_url, episodes, titleJapanese, type, score, url)
     }
 }
 

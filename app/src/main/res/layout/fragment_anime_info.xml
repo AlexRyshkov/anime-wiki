@@ -40,13 +40,23 @@
                 tools:text="title" />
 
             <ImageButton
+                android:id="@+id/shareButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                app:tint="@android:color/white"
+                android:src="@drawable/ic_share" />
+
+            <ImageButton
                 android:id="@+id/favoriteButton"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:background="@android:color/transparent"
                 android:scaleType="fitXY"
                 app:tint="@android:color/white"
-                tools:src="@drawable/ic_heart_plus" />
+                android:src="@drawable/ic_heart_plus"/>
         </LinearLayout>
 
 

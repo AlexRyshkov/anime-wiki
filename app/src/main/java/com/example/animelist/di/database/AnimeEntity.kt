@@ -22,4 +22,5 @@ data class Anime(
     val titleJapanese: String?,
     val type: String?,
     val score: Double?,
+    val url: String,
     )

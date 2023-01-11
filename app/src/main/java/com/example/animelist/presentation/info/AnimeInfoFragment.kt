@@ -1,5 +1,6 @@
 package com.example.animelist.presentation.info
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +38,17 @@ class AnimeInfoFragment : Fragment() {
         with (binding) {
             backButton.setOnClickListener {
                 findNavController().popBackStack()
+            }
+
+            shareButton.setOnClickListener {
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, animeInfoViewModel.anime.value?.url)
+                    type = "text/plain"
+                }
+
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(shareIntent)
             }
 
             favoriteButton.setOnClickListener {
